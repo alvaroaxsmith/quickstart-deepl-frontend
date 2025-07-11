@@ -26,21 +26,22 @@ const useToast = () => {
   }, [toasts]);
 
   const ToastContainer = () => (
-    <div className= "fixed bottom-5 right-5 z-50 space-y-2" >
-    {
-      toasts.map(toast => (
+    <div className="fixed bottom-5 right-5 z-50 space-y-2" aria-live="polite" aria-label="Notifications">
+      {toasts.map(toast => (
         <div
-          key= { toast.id }
-          className = {`px-4 py-2 rounded-lg shadow-lg text-white ${toast.type === 'success' ? 'bg-success' : 'bg-error'
-          }`}
-    >
-    { toast.message }
-    </div>
+          key={toast.id}
+          className={`px-4 py-2 rounded-lg shadow-lg text-white ${toast.type === 'success' ? 'bg-success' : 'bg-error'
+            }`}
+          role="alert"
+          aria-live="assertive"
+        >
+          {toast.message}
+        </div>
       ))}
-</div>
+    </div>
   );
 
-return { showToast, ToastContainer };
+  return { showToast, ToastContainer };
 };
 
 export default useToast;

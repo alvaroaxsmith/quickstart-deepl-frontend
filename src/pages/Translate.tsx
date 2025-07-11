@@ -16,15 +16,16 @@ const Translate = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [copied, setCopied] = useState(false);
   const { isAuthenticated } = useAuth();
-  const { showToast } = useToastContext();
-
-  useEffect(() => {
+  const { showToast } = useToastContext(); useEffect(() => {
     const fetchLanguages = async () => {
       try {
         const response = await getLanguages();
         // Ensure response.data is an array, or default to an empty array
-        const languagesData = Array.isArray(response.data) ? response.data : [];
-        setLanguages(languagesData);
+        const languagesData = Array.isArray(response.data.languages) ? response.data.languages : [];
+        setLanguages(languagesData.map((lang: any) => ({
+          language: lang.language_code,
+          name: lang.language_name
+        })));
         if (languagesData.length > 0 && !targetLang) {
           setTargetLang('EN-US'); // Default to English-US
         }
@@ -41,17 +42,23 @@ const Translate = () => {
 
   const handleTranslate = async () => {
     if (!text.trim() || !targetLang) return;
+
     setIsLoading(true);
     setTranslatedText('');
     try {
       const response = await translateText(text, targetLang);
-      setTranslatedText(response.data.translatedText);
+      setTranslatedText(response.data.translation);
     } catch (err) {
       showToast('Translation failed.', 'error');
       console.error(err);
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleClearText = () => {
+    setText('');
+    setTranslatedText('');
   };
 
   const handleCopy = () => {
@@ -62,19 +69,38 @@ const Translate = () => {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  return (
+  const getCharacterCountColor = () => {
+    const percentage = (text.length / 5000) * 100;
+    if (percentage >= 100) return 'text-red-500';
+    if (percentage >= 80) return 'text-yellow-500';
+    return 'text-gray-400';
+  }; return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-gray-900 text-gray-200">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Input Column */}
         <div className="space-y-4">
-          <textarea
-            className="w-full min-h-[200px] p-4 bg-gray-800 text-gray-200 border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 transition-all duration-300"
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            placeholder="Enter text to translate"
-            maxLength={5000}
-          />
-          <div className="text-right text-sm text-gray-400">
+          <div className="relative">
+            <textarea
+              className="w-full min-h-[200px] p-4 bg-gray-800 text-gray-200 border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              placeholder="Enter text to translate"
+              maxLength={5000}
+              aria-label="Text to translate"
+            />
+            {text && (
+              <button
+                onClick={handleClearText}
+                className="absolute top-3 right-3 p-2 text-gray-400 hover:text-white transition-all duration-300"
+                aria-label="Clear text"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            )}
+          </div>
+          <div className={`text-right text-sm ${getCharacterCountColor()}`}>
             {text.length} / 5000
           </div>
         </div>
@@ -83,9 +109,12 @@ const Translate = () => {
         <div className="relative">
           <div className="w-full min-h-[200px] p-4 bg-gray-900 border border-gray-700 rounded-lg flex items-center justify-center">
             {isLoading ? (
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+              <div className="flex items-center space-x-2">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+                <span className="text-gray-400">Traduzindo...</span>
+              </div>
             ) : translatedText ? (
-              <p className="text-gray-200">{translatedText}</p>
+              <p className="text-gray-200 w-full">{translatedText}</p>
             ) : (
               <p className="text-gray-400">Aguardando tradução...</p>
             )}
@@ -94,6 +123,7 @@ const Translate = () => {
             <button
               onClick={handleCopy}
               className="absolute top-3 right-3 p-2 text-gray-400 hover:text-white transition-all duration-300"
+              aria-label="Copy translated text"
             >
               {copied ? (
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -115,6 +145,7 @@ const Translate = () => {
           value={targetLang}
           onChange={(e) => setTargetLang(e.target.value)}
           className="w-full sm:w-auto px-4 py-2 bg-gray-800 text-gray-200 border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+          aria-label="Target language"
         >
           <option value="" disabled>Select Language</option>
           {languages.map((lang) => (
@@ -123,10 +154,12 @@ const Translate = () => {
             </option>
           ))}
         </select>
+
         <button
           onClick={handleTranslate}
           disabled={isLoading || !text.trim()}
           className="w-full sm:w-auto px-6 py-2 font-bold text-white bg-blue-600 rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 flex items-center justify-center"
+          aria-label="Translate text"
         >
           {isLoading ? (
             <>
