@@ -57,6 +57,7 @@ const Navbar = () => {
                 onClick={handleLogout}
                 className="flex items-center space-x-2 text-gray-200 hover:text-blue-400 transition-colors duration-300"
                 aria-label="Logout from account"
+                style={{ cursor: 'pointer' }}
               >
                 <span>Logout</span>
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
