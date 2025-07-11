@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { getHistory } from '../../api/translationService';
-import { useAuth } from '../../context/AuthContext';
-import { useToastContext } from '../../context/ToastContext';
+import { useAuth } from '../../context/auth-context';
+import { useToastContext } from '../../context/toast-context';
 import HistoryView from './history.view';
 
 export interface Translation {

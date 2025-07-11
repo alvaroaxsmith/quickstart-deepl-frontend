@@ -1,11 +1,11 @@
 import { Route, Routes } from 'react-router-dom';
-import { ToastProvider } from './context/ToastContext';
-import Navbar from './components/Navbar';
+import { ToastProvider } from './context/toast-context';
+import Navbar from './components/navbar/navbar';
 import LoginController from './pages/login/login.controller';
 import RegisterController from './pages/register/register.controller';
 import TranslateController from './pages/translate/translate.controller';
 import HistoryController from './pages/history/history.controller';
-import ProtectedRoute from './components/ProtectedRoute';
+import ProtectedRoute from './components/protected-route/protected-route';
 
 function App() {
 

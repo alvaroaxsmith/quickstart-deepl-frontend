@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { registerUser } from '../../api/authService';
-import { useToastContext } from '../../context/ToastContext';
+import { useToastContext } from '../../context/toast-context';
 import RegisterView from './register.view';
 
 export interface RegisterFormErrors {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './AnimatedPage.css';
+import './animated-page.css';
 
 const AnimatedPage = ({ children }: { children: React.ReactNode }) => {
   const [animationClass, setAnimationClass] = useState('page-initial');

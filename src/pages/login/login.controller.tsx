@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { loginUser } from '../../api/authService';
-import { useAuth } from '../../context/AuthContext';
-import { useToastContext } from '../../context/ToastContext';
+import { useAuth } from '../../context/auth-context';
+import { useToastContext } from '../../context/toast-context';
 import LoginView from './login.view';
 
 export interface LoginFormErrors {

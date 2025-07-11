@@ -1,5 +1,5 @@
-import AnimatedPage from '../../components/AnimatedPage';
-import '../../components/AnimatedPage.css';
+import AnimatedPage from '../../components/animated-page/animated-page';
+import '../../components/animated-page/animated-page.css';
 import { type Language } from './translate.controller';
 import React from 'react';
 
