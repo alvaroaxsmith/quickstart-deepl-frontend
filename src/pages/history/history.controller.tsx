@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getHistory } from '../../api/translationService';
+import { getHistory } from '../../api/translation.service';
 import { useAuth } from '../../context/auth-context';
 import { useToastContext } from '../../context/toast-context';
 import HistoryView from './history.view';

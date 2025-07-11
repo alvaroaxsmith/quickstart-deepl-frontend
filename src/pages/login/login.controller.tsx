@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { loginUser } from '../../api/authService';
+import { loginUser } from '../../api/auth.service';
 import { useAuth } from '../../context/auth-context';
 import { useToastContext } from '../../context/toast-context';
 import LoginView from './login.view';

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { registerUser } from '../../api/authService';
+import { registerUser } from '../../api/auth.service';
 import { useToastContext } from '../../context/toast-context';
 import RegisterView from './register.view';
 

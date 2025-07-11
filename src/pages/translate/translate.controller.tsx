@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getLanguages, translateText } from '../../api/translationService';
+import { getLanguages, translateText } from '../../api/translation.service';
 import { useAuth } from '../../context/auth-context';
 import { useToastContext } from '../../context/toast-context';
 import TranslateView from './translate.view';
