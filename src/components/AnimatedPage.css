@@ -1,0 +1,28 @@
+.page-transition {
+  opacity: 0;
+  transform: translateX(20px);
+  transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+}
+
+.page-enter {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.page-wrapper {
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.page-initial {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.page-final {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+body.page-transition-active {
+  overflow: hidden;
+}
